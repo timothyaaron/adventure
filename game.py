@@ -2,12 +2,14 @@ import random
 import sys
 import time
 
+from items import Gold
+
 directions = ['north', 'west', 'east', 'south']
 
 
 # print a message slowly
 def slow_type(message):
-    typing_speed = 100  # wpm
+    typing_speed = 600  # wpm
     for m in message:
         sys.stdout.write(m)
         sys.stdout.flush()
@@ -24,6 +26,7 @@ class Location:
 
         # Empty dictionary - will store which locations are linked to which other locations
         self.linked_locations = {}
+        self.items = []
 
     def add_link(self, direction, destination):
         # Add link to linked_locations dictionary (if both are valid)
@@ -39,9 +42,16 @@ class Location:
         print()
         slow_type(self.description)
 
+        if self.items:
+            print()
+            slow_type('There are items in this room...')
+            for item in self.items:
+                slow_type(item.description)
+
         # print where we can go
+        print()
         for link_direction, linked_location in self.linked_locations.items():
-            print(link_direction + ': ' + locations[linked_location].name)
+            slow_type(link_direction + ': ' + locations[linked_location].name)
 
 
 # all locations
@@ -60,6 +70,7 @@ if locations:
     locations['big room'].add_link('east', 'window room')
     locations['big room'].add_link('west', 'grass room')
     locations['big room'].add_link('south', 'long room')
+    locations['big room'].items.append(Gold(10))
 
     locations['food room'].add_link('east', 'hiding room')
     locations['food room'].add_link('south', 'big room')
