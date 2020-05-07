@@ -2,7 +2,7 @@ import random
 import sys
 import time
 
-from items import Gold
+from items import Gold, Item
 
 directions = ['north', 'west', 'east', 'south']
 
@@ -46,7 +46,7 @@ class Location:
             print()
             slow_type('There are items in this room...')
             for item in self.items:
-                slow_type(item.description)
+                slow_type(f"\t{item.description}")
 
         # print where we can go
         print()
@@ -56,9 +56,9 @@ class Location:
 
 # all locations
 locations = {
-    'big room': Location('The big room', 'You are in the big room. There are big fluffy things and a dragon.'),
-    'food room': Location('The food room', 'You are in the food room. There is cheese.'),
-    'long room': Location('The long room', 'You are in the long room. There are some big doors.'),
+    'big room': Location('The big room', 'This room is enormous. There are big fluffy things and a dragon.'),
+    'food room': Location('The food room', 'Smells good in here.'),
+    'long room': Location('The long room', 'You can\'t even see the end of this room. There are some big doors.'),
     'window room': Location('The window room', 'You are in the window room. There are big stands.'),
     'hiding room': Location('The hiding room', 'You are in the hiding room. There is a lot of hiding places.'),
     'grass room': Location('The grass room', 'You are in the grass room. There is a lot of grass and a wolf.'),
@@ -71,9 +71,11 @@ if locations:
     locations['big room'].add_link('west', 'grass room')
     locations['big room'].add_link('south', 'long room')
     locations['big room'].items.append(Gold(10))
+    locations['big room'].items.append(Gold(20))
 
     locations['food room'].add_link('east', 'hiding room')
     locations['food room'].add_link('south', 'big room')
+    locations['food room'].items.append(Item('cheese', 'a piece of cheese', 1))
 
     locations['long room'].add_link('east', 'window room')
     locations['long room'].add_link('west', 'big room')

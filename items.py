@@ -1,5 +1,4 @@
 class Item():
-    """The base class for all items"""
     def __init__(self, name, description, value):
         self.name = name
         self.description = description
@@ -18,5 +17,5 @@ class Gold(Item):
     def __init__(self, amt):
         self.amt = amt
         super().__init__(name="Gold",
-                         description=f"A round coin with {self.amt} stamped on the front.",
+                         description=f"a round coin with {self.amt} stamped on the front",
                          value=self.amt)
