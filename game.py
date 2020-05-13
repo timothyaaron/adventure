@@ -5,6 +5,33 @@ import time
 from items import Gold, Item
 
 directions = ['north', 'west', 'east', 'south']
+commands = {
+    'n': 'north',
+    's': 'south',
+    'e': 'east',
+    'w': 'west',
+    'north': 'north',
+    'south': 'south',
+    'east': 'east',
+    'west': 'west',
+
+    'i': 'inventory',
+    'inventory': 'inventory',
+
+    'get': 'get',
+    'grab': 'get',
+    'pick': 'get',
+    'take': 'get',
+
+    # TODO: let player drop items
+    # 'drop': 'drop',
+    # 'put': 'drop',
+
+    # TODO: let player exit
+    # 'exit': 'exit',
+    # 'quit': 'exit',
+    # 'stop': 'exit',
+}
 
 
 # print a message slowly
@@ -90,20 +117,45 @@ if locations:
     locations['grass room'].add_link('east', 'big room')
 
 
-# player will start here
+# inital state
+inventory = []
 current_location = locations['big room']
+command = None
 
 # game loop
 while True:
-    current_location.print_state()
-
-    # Read player input
-    command = input('>').lower()
-    if command in directions:
-        if command not in current_location.linked_locations:
-            print('You cannot go that way')
-        else:
-            location_id = current_location.linked_locations[command]
-            current_location = locations[location_id]
+    if command == 'inventory':
+        print("Here's your inventory:")
+        print(', '.join(inventory))
     else:
-        print('Try one of: ' + ', '.join(directions))  # Show list of directions, separated by commas
+        current_location.print_state()
+
+    # get player input
+    print()
+    user_input = input('>').lower().split()
+    action, obj = user_input[0], user_input[-1]
+    command = commands.get(action)
+
+    # do the thing
+    if command:
+        if command in directions:
+            if command in current_location.linked_locations:
+                location_id = current_location.linked_locations[command]
+                current_location = locations[location_id]
+            else:
+                print('You cannot go that way.')
+        elif command == 'get':
+            # TODO: see if the object exists
+            object_exists = False
+
+            if object_exists:
+                # TODO: add object to inventory
+                print(f'You picked up the {obj}.')
+
+                # TODO: remove object from room
+
+            else:
+                print(f"{obj.capitalize()}? I don't see that here.")
+    else:
+        unique_commands = set(commands.values())
+        print('Try one of: ' + ', '.join(unique_commands))  # Show list of directions, separated by commas
