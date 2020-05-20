@@ -1,3 +1,4 @@
+import os
 import random
 import sys
 import time
@@ -124,17 +125,23 @@ command = None
 
 # game loop
 while True:
+    # TODO: clear screen, but get warning messages
+    # os.system('clear')
+
     if command == 'inventory':
         print("Here's your inventory:")
-        print(', '.join(inventory))
-    else:
-        current_location.print_state()
+        for i in inventory:
+            print(f"\t{i.description}")
+
+    current_location.print_state()
 
     # get player input
     print()
     user_input = input('>').lower().split()
     action, obj = user_input[0], user_input[-1]
     command = commands.get(action)
+
+    # import pdb; pdb.set_trace()
 
     # do the thing
     if command:
@@ -145,14 +152,20 @@ while True:
             else:
                 print('You cannot go that way.')
         elif command == 'get':
-            # TODO: see if the object exists
-            object_exists = False
+            items_in_room = [i.name.lower() for i in current_location.items]
+            object_exists = obj in items_in_room
 
             if object_exists:
-                # TODO: add object to inventory
-                print(f'You picked up the {obj}.')
+                items_to_put_back = []
 
-                # TODO: remove object from room
+                for item in current_location.items:
+                    if item.name.lower() == obj:
+                        inventory.append(item)
+                    else:
+                        items_to_put_back.append(item)
+
+                current_location.items = items_to_put_back
+                print(f'You picked up the {obj}.')
 
             else:
                 print(f"{obj.capitalize()}? I don't see that here.")
