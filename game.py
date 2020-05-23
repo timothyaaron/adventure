@@ -90,6 +90,7 @@ locations = {
     'window room': Location('The window room', 'You are in the window room. There are big stands.'),
     'hiding room': Location('The hiding room', 'You are in the hiding room. There is a lot of hiding places.'),
     'grass room': Location('The grass room', 'You are in the grass room. There is a lot of grass and a wolf.'),
+    'home': Location('Home', 'It’s the best house a mouse could have. There is a little bed made from scraps you collected from around the rooms. and a big pipe that is overhead that makes a little leak that’s perfect to wash your hands in. there is an empty pipe that sticks out. You could put the food you find or buy in.'),
 }
 
 # all location links
@@ -112,10 +113,13 @@ if locations:
     locations['window room'].add_link('west', 'big room')
     locations['window room'].add_link('south', 'long room')
 
+    locations['hiding room'].add_link('north', 'home')
     locations['hiding room'].add_link('west', 'food room')
     locations['hiding room'].add_link('south', 'window room')
 
     locations['grass room'].add_link('east', 'big room')
+
+    locations['home'].add_link('south', 'hiding room')
 
 
 # inital state
