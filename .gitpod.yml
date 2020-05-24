@@ -3,7 +3,7 @@ ports:
   - port: 5900
     onOpen: ignore
   - port: 6080
-    onOpen: open-preview
 tasks:
-  - init: pip3 install -r requirements.txt
-    command: python3 game.py
+  # - init: pip3 install -r requirements.txt
+  #   command: python3 game.py
+  - command: python3 game.py
