@@ -19,3 +19,6 @@ class Gold(Item):
         super().__init__(name="Gold",
                          description=f"a round coin with {self.amt} stamped on the front",
                          value=self.amt)
+
+    def __repr__(self):
+        return f"Gold ({self.amt})"
